@@ -1,0 +1,11 @@
+Changed made by Julien in i18n_xgettext.py for convenience :
+
+   * Removing the lines in the potfile_header that were useless and preventing 	
+     to get a correct pot file without processing to remove them.
+
+   * Changing the global declaration of potfile_header tp avoid the warnings
+
+   * I removed as well the possiblity to generate empty msgid's that were
+     producing incorrect pot files thus unprocessable ones. 
+
+ 
