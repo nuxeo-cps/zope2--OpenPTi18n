@@ -1,11 +1,13 @@
-Changed made by Julien in i18n_xgettext.py for convenience :
+Changed made by Nuxeo in i18n_xgettext.py:
 
    * Removing the lines in the potfile_header that were useless and preventing 	
      to get a correct pot file without processing to remove them.
 
-   * Changing the global declaration of potfile_header tp avoid the warnings
+   * Changing the global declaration of potfile_header to avoid the warnings
 
-   * I removed as well the possiblity to generate empty msgid's that were
+   * Removed as well the possibility to generate empty msgid's that were
      producing incorrect pot files thus unprocessable ones. 
 
+  * Made i18n_xgettext aware of the new syntax of i18n:attributes that appeared
+    in Zope 2.7 (';' is used to separate attributes) fixes #611.
  

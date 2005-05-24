@@ -65,8 +65,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language-code: LL\n"
-"Language-name: Language\n"
+"Language-Code: LL\n"
+"Language-Name: Language\n"
 "Preferred-encodings: utf-8 latin1\n"
 "Domain: %(domain)s\n"
 
@@ -116,7 +116,8 @@ class i18n_id_collector(object):
     def postprocess(self, element, context):
         name = element.attributes[i18n_ns].get('name', None)
         msgid = element.attributes[i18n_ns].get('translate', None)
-        attributes = element.attributes[i18n_ns].get('attributes', '').split()
+        # nuxeo
+        attributes = element.attributes[i18n_ns].get('attributes', None)
         main_attributes = element.attributes.get(element.ns, {})
         tal = element.attributes.get(tal_ns, {})
         tal_attributes = tal.get('attributes', '').split()
@@ -136,14 +137,17 @@ class i18n_id_collector(object):
             if default:                 # nuxeo
                 context.register(default, xml, default)
             # else msgid is dynamic - don't mess with it
-        for aname in attributes:
-            if aname in tal_attributes:
-                # msgid is dynamic - don't mess with it
-                continue
-            value = main_attributes.get(aname, None)
-            if value is None:
-                raise ProcessError, 'i18n:attributes on inexistent attribute at ' + xml
-            context.register(value, xml, value)
+        # nuxeo
+        if attributes is not None:
+            for aname in attributes.split(';'):
+                aname = aname.strip()
+                if aname in tal_attributes:
+                    # msgid is dynamic - don't mess with it
+                    continue
+                value = main_attributes.get(aname, None)
+                if value is None:
+                    raise ProcessError, 'i18n:attributes on inexistent attribute at ' + xml
+                context.register(value, xml, value)
         if name:
             return Named_substitution(name, tal)
         return element
