@@ -42,7 +42,9 @@ from i18n_compiler import i18n_ns
 from OpenTAL import tal_handler
 
 # filename regexpr
-filenames=r'\.z?pt$'
+# Nuxeo
+# Do not treat files which start with "." such as Emacs ".#xxx" swap files.
+filenames=r'^[^.]\.z?pt$'
 # how many references to show
 example_max = 8
 # timezone to show in the header
@@ -116,7 +118,7 @@ class i18n_id_collector(object):
     def postprocess(self, element, context):
         name = element.attributes[i18n_ns].get('name', None)
         msgid = element.attributes[i18n_ns].get('translate', None)
-        # nuxeo
+        # Nuxeo
         attributes = element.attributes[i18n_ns].get('attributes', None)
         main_attributes = element.attributes.get(element.ns, {})
         tal = element.attributes.get(tal_ns, {})
@@ -134,10 +136,10 @@ class i18n_id_collector(object):
         if msgid:
             context.register(msgid, xml, default)
         elif msgid == "":
-            if default:                 # nuxeo
+            if default:                 # Nuxeo
                 context.register(default, xml, default)
             # else msgid is dynamic - don't mess with it
-        # nuxeo
+        # Nuxeo
         if attributes is not None:
             for aname in attributes.split(';'):
                 aname = aname.strip()
@@ -234,7 +236,7 @@ def _do_file(path, catalog):
 
 def _do_dir(info, dirname, names):
     filename_re, catalog = info
-    names.sort() # nuxeo
+    names.sort() # Nuxeo
     for name in names:
         if filename_re.search(name):
             _do_file(os.path.join(dirname, name), catalog)

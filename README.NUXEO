@@ -1,13 +1,15 @@
 Changed made by Nuxeo in i18n_xgettext.py:
 
-   * Removing the lines in the potfile_header that were useless and preventing 	
-     to get a correct pot file without processing to remove them.
+  * Removing the lines in the potfile_header that were useless and preventing 	
+    to get a correct pot file without processing to remove them.
 
-   * Changing the global declaration of potfile_header to avoid the warnings
+  * Changing the global declaration of potfile_header to avoid the warnings
 
-   * Removed as well the possibility to generate empty msgid's that were
-     producing incorrect pot files thus unprocessable ones. 
+  * Removed as well the possibility to generate empty msgid's that were
+    producing incorrect pot files thus unprocessable ones. 
 
   * Made i18n_xgettext aware of the new syntax of i18n:attributes that appeared
     in Zope 2.7 (';' is used to separate attributes) fixes #611.
- 
+
+  * Do not treat files which start with "." such as Emacs ".#xxx" swap files.
+
