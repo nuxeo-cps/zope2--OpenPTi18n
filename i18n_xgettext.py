@@ -44,7 +44,7 @@ from OpenTAL import tal_handler
 # filename regexpr
 # Nuxeo
 # Do not treat files which start with "." such as Emacs ".#xxx" swap files.
-filenames=r'^[^.]\.z?pt$'
+filenames=r'^[^.].+\.z?pt$'
 # how many references to show
 example_max = 8
 # timezone to show in the header
