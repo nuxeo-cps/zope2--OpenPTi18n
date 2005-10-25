@@ -1,22 +1,26 @@
 #!/usr/bin/python
 ##############################################################################
-#    Copyright (C) 2001, 2002, 2003 Lalo Martins <lalo@laranja.org>,
-#                  and Contributors
-
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
-
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
-
+# Copyright (C) 2001, 2002, 2003 Lalo Martins <lalo@laranja.org>,
+#               and Contributors
+# Contributors:
+# Julien Anguenot <ja@nuxeo.com>
+# M.-A. Darche <madarche@nuxeo.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
+#
+# $Id$
 '''%(name)s
 
 Given one or more files with i18n: directives in the command line,
@@ -64,7 +68,7 @@ msgstr ""
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=%(output_encoding)s\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language-Code: en\n"
@@ -270,7 +274,7 @@ if __name__ == '__main__':
     try:
         opts, paths = getopt.getopt(sys.argv[1:],
                                    'f:ho:dD:',
-                                   'filenames= help output= use-default domain='.split())
+                                   'filenames= help output= output-encoding= use-default domain='.split())
     except getopt.GetoptError, e:
         print e.msg
         print
@@ -279,6 +283,7 @@ if __name__ == '__main__':
     use_default = None
     output = None
     domain = 'default'
+    output_encoding = 'ISO-8859-15'
     for opt, value in opts:
         if opt in ('-f', '--filenames'):
             filenames = value
@@ -287,6 +292,8 @@ if __name__ == '__main__':
             sys.exit(0)
         elif opt in ('-o', '--output'):
             output = value
+        elif opt in ('--output-encoding'):
+            output_encoding = value
         elif opt in ('-d', '--use-default'):
             use_default = 1
         elif opt in ('-D', '--domain'):
@@ -295,9 +302,11 @@ if __name__ == '__main__':
         output = domain + '.pot'
 
     potfile_header = potfile_header % {
-        'timestamp':time.strftime('%Y-%m-%d %H:%M', time.localtime()),
-        'tz':timezone,
-        'domain':domain}
+        'timestamp': time.strftime('%Y-%m-%d %H:%M', time.localtime()),
+        'output_encoding': output_encoding,
+        'tz': timezone,
+        'domain':domain,
+        }
 
     try:
         xgettext(paths, filenames, output, domain, use_default)
